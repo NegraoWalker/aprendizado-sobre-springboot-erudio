@@ -12,7 +12,18 @@ public class MathController {
     //http://localhost:8080/math/sum
     @GetMapping(value = "/sum/{numberOne}/{numberTwo}")
     public Double sum(@PathVariable(name = "numberOne") String numberOne, @PathVariable(name = "numberTwo") String numberTwo) {
-        return 0.0;
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            throw new IllegalArgumentException();
+        }
+        return convertToDouble(numberOne) + convertToDouble(numberTwo);
+    }
+
+    private boolean isNumeric(String number) {
+        return true;
+    }
+
+    private Double convertToDouble(String number) {
+        return 1D;
     }
 
 
