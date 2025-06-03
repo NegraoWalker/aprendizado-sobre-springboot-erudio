@@ -1,5 +1,6 @@
 package br.com.walker.aprendizado_sobre_springboot_erudio.controller;
 
+import br.com.walker.aprendizado_sobre_springboot_erudio.exception.UnsupportedMathOperationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ public class MathController {
     @GetMapping(value = "/sum/{numberOne}/{numberTwo}")
     public Double sum(@PathVariable(name = "numberOne") String numberOne, @PathVariable(name = "numberTwo") String numberTwo) {
         if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new IllegalArgumentException();
+            throw new UnsupportedMathOperationException("Please set a numeric value!");
         }
         return convertToDouble(numberOne) + convertToDouble(numberTwo);
     }
@@ -29,7 +30,7 @@ public class MathController {
     private Double convertToDouble(String strNumber) {
         Double number = 0.0;
         if (strNumber == null || strNumber.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new UnsupportedMathOperationException("Please set a numeric value!");
         }
         String strNumber2 = strNumber.replace(",", ".");
         if (strNumber2.matches("[-+]?[0-9]*\\.?[0-9]+")) {
