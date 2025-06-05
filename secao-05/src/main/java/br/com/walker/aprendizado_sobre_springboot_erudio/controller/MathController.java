@@ -1,46 +1,44 @@
 package br.com.walker.aprendizado_sobre_springboot_erudio.controller;
 
-import br.com.walker.aprendizado_sobre_springboot_erudio.exception.UnsupportedMathOperationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static br.com.walker.aprendizado_sobre_springboot_erudio.math.SimpleMath.*;
+
 
 @RestController
 @RequestMapping(value = "/math") //http://localhost:8080/math
 public class MathController {
-    //http://localhost:8080/math/sum
+    //http://localhost:8080/math/sum/{numberOne}/{numberTwo}
     @GetMapping(value = "/sum/{numberOne}/{numberTwo}")
     public Double sum(@PathVariable(name = "numberOne") String numberOne, @PathVariable(name = "numberTwo") String numberTwo) {
-        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new UnsupportedMathOperationException("Please set a numeric value!");
-        }
-        return convertToDouble(numberOne) + convertToDouble(numberTwo);
+        return addition(numberOne, numberTwo);
     }
-
-    private boolean isNumeric(String strNumber) {
-        if (strNumber == null || strNumber.isEmpty()) {
-            return false;
-        }
-        String strNumber2 = strNumber.replace(",", ".");
-        return strNumber2.matches("[-+]?[0-9]*\\.?[0-9]+");
+    //http://localhost:8080/math/sub/{numberOne}/{numberTwo}
+    @GetMapping(value = "/sub/{numberOne}/{numberTwo}")
+    public Double sub(@PathVariable(name = "numberOne") String numberOne, @PathVariable(name = "numberTwo") String numberTwo) {
+        return subtraction(numberOne, numberTwo);
     }
-
-    private Double convertToDouble(String strNumber) {
-        Double number = 0.0;
-        if (strNumber == null || strNumber.isEmpty()) {
-            throw new UnsupportedMathOperationException("Please set a numeric value!");
-        }
-        String strNumber2 = strNumber.replace(",", ".");
-        if (strNumber2.matches("[-+]?[0-9]*\\.?[0-9]+")) {
-            number = Double.parseDouble(strNumber2);
-        }
-        return number;
+    //http://localhost:8080/math/mult/{numberOne}/{numberTwo}
+    @GetMapping(value = "/mult/{numberOne}/{numberTwo}")
+    public Double mult(@PathVariable(name = "numberOne") String numberOne, @PathVariable(name = "numberTwo") String numberTwo) {
+        return multiplication(numberOne, numberTwo);
     }
-
-
-    //http://localhost:8080/math/sub
-    //http://localhost:8080/math/div
-
+    //http://localhost:8080/math/div/{numberOne}/{numberTwo}
+    @GetMapping(value = "/div/{numberOne}/{numberTwo}")
+    public Double div(@PathVariable(name = "numberOne") String numberOne, @PathVariable(name = "numberTwo") String numberTwo) {
+        return division(numberOne, numberTwo);
+    }
+    //http://localhost:8080/math/mean/{numberOne}/{numberTwo}
+    @GetMapping(value = "/mean/{numberOne}/{numberTwo}")
+    public Double mean(@PathVariable(name = "numberOne") String numberOne, @PathVariable(name = "numberTwo") String numberTwo) {
+        return average(numberOne, numberTwo);
+    }
+    //http://localhost:8080/math/sqrt/{number}
+    @GetMapping(value = "/sqrt/{number}")
+    public Double sqrt(@PathVariable(name = "number") String number) {
+        return squareRoot(number);
+    }
 }
