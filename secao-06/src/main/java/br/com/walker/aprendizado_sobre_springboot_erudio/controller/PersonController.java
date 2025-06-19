@@ -3,7 +3,8 @@ package br.com.walker.aprendizado_sobre_springboot_erudio.controller;
 import br.com.walker.aprendizado_sobre_springboot_erudio.model.Person;
 import br.com.walker.aprendizado_sobre_springboot_erudio.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class PersonController {
         return personService.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public Person findById(@PathVariable("id") Long id) {
         return personService.findById(id);
     }
@@ -35,8 +36,9 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         personService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
