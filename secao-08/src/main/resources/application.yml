@@ -17,5 +17,3 @@ spring:
 logging:
   level:
     br.com.walker.aprendizado_sobre_springboot_erudio: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

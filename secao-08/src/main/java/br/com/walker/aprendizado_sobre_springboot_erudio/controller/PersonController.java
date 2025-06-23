@@ -19,7 +19,7 @@ public class PersonController {
         return personService.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public Person findById(@PathVariable("id") Long id) {
         return personService.findById(id);
     }
