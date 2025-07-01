@@ -1,7 +1,9 @@
 package br.com.walker.aprendizado_sobre_springboot_erudio.service;
 
 import br.com.walker.aprendizado_sobre_springboot_erudio.exception.ResourceNotFoundException;
+import br.com.walker.aprendizado_sobre_springboot_erudio.mapper.ObjectMapper;
 import br.com.walker.aprendizado_sobre_springboot_erudio.model.Person;
+import br.com.walker.aprendizado_sobre_springboot_erudio.model.dto.PersonDTO;
 import br.com.walker.aprendizado_sobre_springboot_erudio.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,30 +21,33 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public List<Person> findAll() {
+    public List<PersonDTO> findAll() {
         logger.info("Finding all People!");
-        return personRepository.findAll();
+        return ObjectMapper.convertListObjects(personRepository.findAll(), PersonDTO.class);
     }
 
-    public Person findById(Long id) {
+    public PersonDTO findById(Long id) {
         logger.info("Finding one Person!");
-        return personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this Id!"));
+        return ObjectMapper.convertObject(personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this Id!")), PersonDTO.class);
     }
 
-    public Person create(Person person) {
+    public PersonDTO create(PersonDTO personDTO) {
         logger.info("Creating one Person!");
-        return personRepository.save(person);
+        Person person = ObjectMapper.convertObject(personDTO, Person.class);
+        personRepository.save(person);
+        return ObjectMapper.convertObject(person, PersonDTO.class);
     }
 
-    public Person update(Person person) {
+    public PersonDTO update(PersonDTO personDTO) {
         logger.info("Updating one Person!");
+        Person person = ObjectMapper.convertObject(personDTO, Person.class);
         Person entity = personRepository.findById(person.getId()).orElseThrow(() -> new ResourceNotFoundException("No records found for this Id!"));
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
         personRepository.save(entity);
-        return entity;
+        return ObjectMapper.convertObject(entity, PersonDTO.class);
     }
 
     public void delete(Long id) {
@@ -51,15 +56,4 @@ public class PersonService {
         personRepository.deleteById(id);
     }
 
-
-
-    private Person mockPerson(int i) {
-        Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setFirstName("Firstname " + i);
-        person.setLastName("Lastname " + i);
-        person.setAddress("Some Address in Brazil");
-        person.setGender("Male | Female");
-        return person;
-    }
 }

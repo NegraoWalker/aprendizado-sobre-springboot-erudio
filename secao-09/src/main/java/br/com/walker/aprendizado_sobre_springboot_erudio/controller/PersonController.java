@@ -1,9 +1,8 @@
 package br.com.walker.aprendizado_sobre_springboot_erudio.controller;
 
-import br.com.walker.aprendizado_sobre_springboot_erudio.model.Person;
+import br.com.walker.aprendizado_sobre_springboot_erudio.model.dto.PersonDTO;
 import br.com.walker.aprendizado_sobre_springboot_erudio.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,23 +14,23 @@ public class PersonController {
     private PersonService personService;
 
     @GetMapping
-    public List<Person> findAll() {
+    public List<PersonDTO> findAll() {
         return personService.findAll();
     }
 
     @GetMapping(value = "/{id}")
-    public Person findById(@PathVariable("id") Long id) {
+    public PersonDTO findById(@PathVariable("id") Long id) {
         return personService.findById(id);
     }
 
     @PostMapping
-    public Person create(@RequestBody Person person) {
-        return personService.create(person);
+    public PersonDTO create(@RequestBody PersonDTO personDTO) {
+        return personService.create(personDTO);
     }
 
     @PutMapping
-    public Person update(@RequestBody Person person) {
-        return personService.update(person);
+    public PersonDTO update(@RequestBody PersonDTO personDTO) {
+        return personService.update(personDTO);
     }
 
     @DeleteMapping("/{id}")

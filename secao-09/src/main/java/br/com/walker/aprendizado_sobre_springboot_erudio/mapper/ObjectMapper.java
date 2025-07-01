@@ -9,14 +9,16 @@ import java.util.List;
 public class ObjectMapper {
     private static Mapper mapper = DozerBeanMapperBuilder.buildDefault(); //Instanciando um objeto mapper padrão
 
-    public static <Origin, Destination> Destination convertObject(Origin origin, Class<Destination> destination) { //Método genérico para converter um objeto em outro
+    //Metodo genérico para converter um objeto em outro
+    public static <Origin, Destination> Destination convertObject(Origin origin, Class<Destination> destination) {
         return mapper.map(origin, destination);
     }
 
-    public static <Origin, Destination> List<Destination> convertListObjects(List<Origin> origin, Class<Destination> destination) { //Método genérico para converter um objeto em outro
+    //Metodo genérico para converter uma lista objetos em outra
+    public static <Origin, Destination> List<Destination> convertListObjects(List<Origin> origin, Class<Destination> destination) {
         List<Destination> destinationObjectsList = new ArrayList<Destination>();
-        for (Object object: origin) {
-            destinationObjectsList.add(mapper.map(origin, destination));
+        for (Origin item : origin) {
+            destinationObjectsList.add(mapper.map(item, destination));
         }
         return destinationObjectsList;
     }
